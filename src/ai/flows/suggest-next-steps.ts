@@ -1,3 +1,4 @@
+
 // src/ai/flows/suggest-next-steps.ts
 'use server';
 
@@ -9,8 +10,8 @@
  * - SuggestNextStepsOutput - The return type for the suggestNextSteps function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {ai}from '@/ai/genkit';
+import {z}from 'genkit';
 
 const SuggestNextStepsInputSchema = z.object({
   applicationStatus: z
@@ -34,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'suggestNextStepsPrompt',
   input: {schema: SuggestNextStepsInputSchema},
   output: {schema: SuggestNextStepsOutputSchema},
-  prompt: `Based on the current status of my job application, suggest the most appropriate next steps. Current status: {{{applicationStatus}}}.',
+  prompt: `Based on the current status of my job application, suggest the most appropriate next steps. Current status: {{{applicationStatus}}}.`,
 });
 
 const suggestNextStepsFlow = ai.defineFlow(
