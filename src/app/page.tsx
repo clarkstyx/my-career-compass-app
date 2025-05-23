@@ -19,11 +19,12 @@ import {
 } from "@/components/ui/select"
 import { JOB_APPLICATION_STATUSES } from '@/lib/types';
 
+const ALL_STATUSES_VALUE = "_all_";
 
 export default function JobListPage() {
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>(ALL_STATUSES_VALUE); // Default to showing all
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -57,7 +58,7 @@ export default function JobListPage() {
   const filteredJobs = jobs.filter(job => {
     const matchesSearchTerm = job.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
                               job.companyName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter ? job.applicationStatus === statusFilter : true;
+    const matchesStatus = !statusFilter || statusFilter === ALL_STATUSES_VALUE ? true : job.applicationStatus === statusFilter;
     return matchesSearchTerm && matchesStatus;
   });
 
@@ -92,7 +93,7 @@ export default function JobListPage() {
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Statuses</SelectItem>
+            <SelectItem value={ALL_STATUSES_VALUE}>All Statuses</SelectItem>
             {JOB_APPLICATION_STATUSES.map(status => (
               <SelectItem key={status} value={status}>{status}</SelectItem>
             ))}
